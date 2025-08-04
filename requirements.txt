@@ -1,3 +1,5 @@
 google-generativeai
 pywin32
 openpyxl
+python-dotenv
+

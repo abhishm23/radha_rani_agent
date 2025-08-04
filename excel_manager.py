@@ -5,12 +5,16 @@ from openpyxl import Workbook
 def create_xlsm(path: str):
     folder = os.path.dirname(path)
     os.makedirs(folder, exist_ok=True)
-    wb = Workbook()
-    wb.save(path)
-    if not path.lower().endswith(".xlsm"):
-        base, _ = os.path.splitext(path)
-        os.rename(path, base + ".xlsm")
-        path = base + ".xlsm"
+
+    excel = win32com.client.DispatchEx("Excel.Application")
+    excel.DisplayAlerts = False
+    wb = excel.Workbooks.Add()
+
+    # Save as .xlsm (52 = xlOpenXMLWorkbookMacroEnabled)
+    wb.SaveAs(Filename=path, FileFormat=52)
+    wb.Close(False)
+    excel.Quit()
+
     return path
 
 def inject_macro(path: str, vba_code: str):
