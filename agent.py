@@ -9,34 +9,36 @@ def main():
 
     xlsm = create_xlsm(file_path)
 
-    max_attempts = 5
-    attempt = 1
+    # max_attempts = 5
+    # attempt = 1
     current_macro = generate_vba_macro(task)
 
-    while attempt <= max_attempts:
-        print(f"\nAttempt {attempt} of {max_attempts}...")
+    inject_macro(xlsm, current_macro)
 
-        print("Injecting macro...")
-        inject_macro(xlsm, current_macro)
+    # while attempt <= max_attempts:
+    #     print(f"\nAttempt {attempt} of {max_attempts}...")
 
-        print("Running macro...")
-        success, error = run_macro(xlsm, current_macro)
+    #     print("Injecting macro...")
+    #     inject_macro(xlsm, current_macro)
 
-        if success:
-            print("Macro executed successfully.")
-            break
-        else:
-            print("Macro failed with error:")
-            print(error)
+    #     print("Running macro...")
+    #     success, error = run_macro(xlsm, current_macro)
 
-            if attempt == max_attempts:
-                print("Max attempts reached. Macro is still failing.")
-                break
+    #     if success:
+    #         print("Macro executed successfully.")
+    #         break
+    #     else:
+    #         print("Macro failed with error:")
+    #         print(error)
 
-            print("Asking model to fix the macro based on error...")
-            current_macro = request_macro_fix(task, current_macro, error or "")
+    #         if attempt == max_attempts:
+    #             print("Max attempts reached. Macro is still failing.")
+    #             break
 
-        attempt += 1
+    #         print("Asking model to fix the macro based on error...")
+    #         current_macro = request_macro_fix(task, current_macro, error or "")
+
+    #     attempt += 1
 
 if __name__ == "__main__":
     main()
